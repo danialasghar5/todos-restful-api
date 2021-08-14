@@ -1,4 +1,4 @@
-class TodosController < ApplicationController
+class Api::V1::TodosController < ApplicationController
 
 	before_action :set_todo, only: [:show, :update, :destroy]
 
@@ -15,8 +15,12 @@ class TodosController < ApplicationController
 
 	#POST /todos
 	def create
-		@todo = Todo.create!(todo_params)
-		json_response(@todo, :created)
+		@todo = Todo.new(todo_params)
+		if @todo.save
+		  json_response(@todo, :created)
+		else
+		 json_response({ message: @todo.errors.full_messages }, :unprocessable_entity)
+		end
 	end
 
 	#PUT /todos/:id
@@ -24,7 +28,7 @@ class TodosController < ApplicationController
 		if @todo.update(todo_params)
 			json_response(@todo)
 		else
-			render json: { status: :unprocessable_entity, message: @todo.errors.full_messages.first}
+			json_response({ message: @todo.errors.full_messages }, :unprocessable_entity)
 		end
 	end
 
@@ -33,11 +37,12 @@ class TodosController < ApplicationController
 		if @todo.destroy
 			json_response(@todo)
 		else
-			render json: { status: :unprocessable_entity, message: @todo.errors.full_messages.first }
+			json_response({ message: @todo.errors.full_messages }, :unprocessable_entity)
 		end
 	end
 
 	private
+	
 	def todo_params
 		params.permit(:title, :created_by)
 	end

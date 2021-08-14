@@ -12,7 +12,7 @@ RSpec.describe "Items API", type: :request do
 
 		context "when valid todo items record exists." do
 			it "returns todo items" do
-				expect(json.size).to eq(20)
+				expect(parsed_response.size).to eq(20)
 			end
 
 			it "returns success status of 200" do
@@ -38,7 +38,7 @@ RSpec.describe "Items API", type: :request do
 
 		context "when valid item exists" do
 			it "returns record" do
-				expect(json["id"]).to eq(id)
+				expect(parsed_response["id"]).to eq(id)
 			end
 
 			it "returns status as succeess 200" do
@@ -90,7 +90,7 @@ RSpec.describe "Items API", type: :request do
 	      end
 
 	      it 'updates the item' do
-	        expect(json["name"]).to eq("Mozart")
+	        expect(parsed_response["name"]).to eq("Mozart")
 	      end
 	    end
 

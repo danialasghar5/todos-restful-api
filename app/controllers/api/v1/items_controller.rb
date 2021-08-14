@@ -1,4 +1,4 @@
-class ItemsController < ApplicationController
+class Api::V1::ItemsController < ApplicationController
 
 	before_action :set_todo
 	before_action :set_todo_item, only: [:show, :update, :destroy]
@@ -8,6 +8,7 @@ class ItemsController < ApplicationController
 		json_response(@todo.items)
 	end
 
+	#POST /todos
 	def create
 		@item = @todo.items.new(item_params)
 		if @item.save!
@@ -49,6 +50,6 @@ class ItemsController < ApplicationController
 	end
 
 	def set_todo_item
-		@item = @todo.items.find_by!(params[:id]) if @todo
+		@item = @todo.items.find_by!(id: params[:id]) if @todo
 	end
 end
